@@ -2,7 +2,6 @@ package GUI;
 
 import java.util.Random;
 import java.util.Vector;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class RandomFrm extends javax.swing.JFrame {
@@ -13,12 +12,11 @@ public class RandomFrm extends javax.swing.JFrame {
     String[] arr = new String[1000];
     String[] arrFirst;
     public DefaultTableModel defaultTableModel;
+    int index;
 
     public RandomFrm() {
         initComponents();
         this.setLocationRelativeTo(null);
-        defaultTableModel = (DefaultTableModel) tbl_Rd.getModel();
-        showToString(arr);
     }
 
     //Đưa ra danh sách các chuỗi trong mảng
@@ -58,7 +56,7 @@ public class RandomFrm extends javax.swing.JFrame {
         for (int i = 1; i < index; i++) {
             String tg = arr[i];
             int j = i - 1;
-            while (j >= 0 && String.valueOf(tg.charAt(0)).toUpperCase().compareTo(String.valueOf(arr[j].charAt(0)).toUpperCase()) < 0 ) {
+            while (j >= 0 && String.valueOf(tg.charAt(0)).toUpperCase().compareTo(String.valueOf(arr[j].charAt(0)).toUpperCase()) < 0) {
                 arr[j + 1] = arr[j];
                 j = j - 1;
             }
@@ -85,21 +83,20 @@ public class RandomFrm extends javax.swing.JFrame {
         int i = L, j = R;
         int k = (L + R) / 2;
         String x = arr[k];
-        while (true) {
+        do {
             while (String.valueOf(x.charAt(0)).toUpperCase().compareTo(String.valueOf(arr[i].charAt(0)).toUpperCase()) > 0) {
                 i++;
             }
             while (String.valueOf(x.charAt(0)).toUpperCase().compareTo(String.valueOf(arr[j].charAt(0)).toUpperCase()) < 0) {
                 j--;
             }
-            
-            hoanDoi(arr, i, j);
             if (i >= j) {
                 break;
             }
+            hoanDoi(arr, i, j);
             i++;
             j--;
-        }
+        } while (i < j);
         SX_Nhanh(arr, L, j - 1); //Sắp xếp trên đoạn < x
         SX_Nhanh(arr, j + 1, R); //Sắp xếp trên đoạn > x
     }
@@ -117,8 +114,6 @@ public class RandomFrm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         btn_Rd = new javax.swing.JButton();
-        txtRD = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         cbb_SapXep = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -140,9 +135,6 @@ public class RandomFrm extends javax.swing.JFrame {
                 btn_RdActionPerformed(evt);
             }
         });
-
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel1.setText("Kết quả:");
 
         cbb_SapXep.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         cbb_SapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Xếp theo: Mặc định", "Sắp xếp chọn", "Sắp xếp chèn", "Sắp xếp sủi bọt", "Sắp xếp nhanh" }));
@@ -196,37 +188,30 @@ public class RandomFrm extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbb_SapXep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtRD, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_Rd))
-                        .addGap(136, 136, 136)))
-                .addContainerGap(60, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
-                .addGap(136, 136, 136))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbb_SapXep, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(147, 147, 147)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(265, 265, 265)
+                        .addComponent(btn_Rd)))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(47, 47, 47)
                 .addComponent(jLabel3)
-                .addGap(28, 28, 28)
+                .addGap(48, 48, 48)
                 .addComponent(btn_Rd)
-                .addGap(38, 38, 38)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtRD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(41, 41, 41)
+                .addGap(44, 44, 44)
                 .addComponent(cbb_SapXep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(39, 39, 39)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(46, Short.MAX_VALUE))
         );
@@ -235,7 +220,7 @@ public class RandomFrm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,65 +230,53 @@ public class RandomFrm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    int index = 0;
+
     private void btn_RdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RdActionPerformed
-        try {
-            //Random độ dài của chuỗi
+        index = 0;
+        do {
             int strLength = rd.nextInt(5) + 1;
             String strRandom = "";
             char[] text = new char[strLength];
-
-            //Random kí tự có trong chuỗi string
-            for (int i = 0; i < strLength; i++) {
-                text[i] = string.charAt(rd.nextInt(string.length()));
+            for (int j = 0; j < strLength; j++) {
+                text[j] = string.charAt(rd.nextInt(string.length()));
+                strRandom += text[j];
             }
+            arr[index++] = strRandom;
 
-            //Nối từng kí tự vừa tạo
-            for (int i = 0; i < strLength; i++) {
-                strRandom += text[i];
-            }
-            //Đưa kq vào txtRd
-            txtRD.setText(strRandom);
+            showToString(arr);
 
-            //Gán chuỗi vào phần vị trí index trong mảng
-            arr[index] = strRandom;
+        } while (index < arr.length);
 
-            //Copy mảng
-            arrFirst = new String[index + 1];
-            System.arraycopy(arr, 0, arrFirst, 0, index + 1);
-
-            index++;
-            showToString(arr);  //Đưa ra bảng
-        } catch (Exception e) {
-            System.out.println(e.toString());
-            JOptionPane.showMessageDialog(rootPane, "Mảng chỉ chứa được " + arr.length + " phần tử.");
-        }
+        //Copy mảng
+        arrFirst = new String[arr.length];
+        System.arraycopy(arr, 0, arrFirst, 0, arr.length);
+        show(arrFirst);
     }//GEN-LAST:event_btn_RdActionPerformed
 
+    public void show(String[] a) {
+        for (String b : a) {
+            System.out.println(b);
+        }
+    }
     private void cbb_SapXepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbb_SapXepActionPerformed
         switch (cbb_SapXep.getSelectedIndex()) {
             case 0:
                 showToString(arrFirst);
-                txtRD.setText("");
                 break;
             case 1:
                 SX_Chon(arr, index);
-                txtRD.setText("");
                 showToString(arr);
                 break;
             case 2:
                 SX_Chen(arr, index);
-                txtRD.setText("");
                 showToString(arr);
                 break;
             case 3:
                 SX_NoiBot(arr, index);
-                txtRD.setText("");
                 showToString(arr);
                 break;
             case 4:
                 SX_Nhanh(arr, 0, index - 1);
-                txtRD.setText("");
                 showToString(arr);
                 break;
         }
@@ -344,12 +317,10 @@ public class RandomFrm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Rd;
     private javax.swing.JComboBox<String> cbb_SapXep;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbl_Rd;
-    private javax.swing.JTextField txtRD;
     // End of variables declaration//GEN-END:variables
 }
