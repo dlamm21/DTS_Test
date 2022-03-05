@@ -77,12 +77,12 @@ public class RandomFrm extends javax.swing.JFrame {
 
     //Sắp xếp nhanh
     public void SX_Nhanh(String[] arr, int L, int R) {
+        int i = L, j = R, k = (L + R) / 2;
+        String x = arr[k];
+        //arr có 1 phần tử
         if (L >= R) {
             return;
         }
-        int i = L, j = R;
-        int k = (L + R) / 2;
-        String x = arr[k];
         do {
             while (String.valueOf(x.charAt(0)).toUpperCase().compareTo(String.valueOf(arr[i].charAt(0)).toUpperCase()) > 0) {
                 i++;
@@ -90,15 +90,15 @@ public class RandomFrm extends javax.swing.JFrame {
             while (String.valueOf(x.charAt(0)).toUpperCase().compareTo(String.valueOf(arr[j].charAt(0)).toUpperCase()) < 0) {
                 j--;
             }
-            if (i >= j) {
-                break;
+            if (i < j) {
+                hoanDoi(arr, i, j);
             }
-            hoanDoi(arr, i, j);
             i++;
             j--;
         } while (i < j);
         SX_Nhanh(arr, L, j - 1); //Sắp xếp trên đoạn < x
-        SX_Nhanh(arr, j + 1, R); //Sắp xếp trên đoạn > x
+        SX_Nhanh(arr, j + 1, R - 1); //Sắp xếp trên đoạn > x
+
     }
 
     public void hoanDoi(String[] arr, int i, int j) {
@@ -250,14 +250,8 @@ public class RandomFrm extends javax.swing.JFrame {
         //Copy mảng
         arrFirst = new String[arr.length];
         System.arraycopy(arr, 0, arrFirst, 0, arr.length);
-        show(arrFirst);
     }//GEN-LAST:event_btn_RdActionPerformed
 
-    public void show(String[] a) {
-        for (String b : a) {
-            System.out.println(b);
-        }
-    }
     private void cbb_SapXepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbb_SapXepActionPerformed
         switch (cbb_SapXep.getSelectedIndex()) {
             case 0:
